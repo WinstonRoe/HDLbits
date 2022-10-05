@@ -1,0 +1,20 @@
+module top_module(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] sum
+);
+
+    wire cout;
+    wire [15:0] mux1, mux2;
+    wire [15:0] dead1, dead2; //these go nowhere and are not needed to pass the test cases
+    add16 instance1(a[15:0],b[15:0],0,sum[15:0], cout);
+    add16 instance2(a[31:16],b[31:16],0,mux1, dead1);
+    add16 instance3(a[31:16],b[31:16],1,mux2,dead2 );
+    always@(*)  begin
+        case(cout)
+            0 : sum[31:16] = mux1; 
+            1 : sum[31:16] = mux2;
+     	endcase
+    end
+
+endmodule
